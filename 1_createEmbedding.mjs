@@ -8,22 +8,17 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const REGION = process.env.BEDROCK_REGION ?? "ap-northeast-1";
-const TEXT_EMBED_MODEL =
-  process.env.BEDROCK_TEXT_EMBED_MODEL ?? "amazon.titan-embed-text-v2:0";
+const BEDROCK_REGION = process.env.BEDROCK_REGION ?? "ap-northeast-1";
+const BEDROCK_EMBED_MODE =
+  process.env.BEDROCK_EMBED_MODEL ?? "amazon.titan-embed-text-v2:0";
 
 const IN_DIR = path.resolve("articles");
 const OUT_DIR = path.resolve("articles-embed");
 
-const client = new BedrockRuntimeClient({ region: REGION });
+const client = new BedrockRuntimeClient({ region: BEDROCK_REGION });
 
 (async () => {
   try {
-    if (!REGION || !TEXT_EMBED_MODEL) {
-      throw new Error(
-        "Required environment variables are not set (REGION, BEDROCK_TEXT_EMBED_MODEL)."
-      );
-    }
     // 読み込み先のディレクトリの存在チェック
     if (!fs.existsSync(IN_DIR)) {
       throw new Error(`Directory not found: ${IN_DIR}`);
@@ -59,7 +54,7 @@ const client = new BedrockRuntimeClient({ region: REGION });
 
       const res = await client.send(
         new InvokeModelCommand({
-          modelId: TEXT_EMBED_MODEL,
+          modelId: BEDROCK_EMBED_MODE,
           contentType: "application/json",
           body: new TextEncoder().encode(body),
         })

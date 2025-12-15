@@ -5,19 +5,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const REGION = process.env.S3_VECTORS_REGION ?? "ap-northeast-1";
+const S3_VECTORS_REGION = process.env.S3_VECTORS_REGION ?? "ap-northeast-1";
 const VECTOR_BUCKET_NAME = process.env.VECTOR_BUCKET_NAME;
 const VECTOR_INDEX_NAME = process.env.VECTOR_INDEX_NAME;
 
 const IN_DIR = path.resolve("articles-vectors");
 
-const client = new S3VectorsClient({ region: REGION });
+const client = new S3VectorsClient({ region: S3_VECTORS_REGION });
 
 (async () => {
   try {
-    if (!REGION || !VECTOR_BUCKET_NAME || !VECTOR_INDEX_NAME) {
+    if (!VECTOR_BUCKET_NAME || !VECTOR_INDEX_NAME) {
       throw new Error(
-        "Required environment variables are not set (REGION, VECTOR_BUCKET_NAME, VECTOR_INDEX_NAME)."
+        "Required environment variables are not set (VECTOR_BUCKET_NAME, VECTOR_INDEX_NAME)."
       );
     }
     // 読み込み先のディレクトリの存在チェック

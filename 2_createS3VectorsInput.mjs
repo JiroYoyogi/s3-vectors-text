@@ -53,7 +53,7 @@ const OUT_DIR = path.resolve("articles-vectors");
 
     console.log("Done.");
   } catch (err) {
-    console.log(err);
+    console.error(err);
     process.exit(1);
   }
 })();

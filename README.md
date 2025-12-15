@@ -38,7 +38,7 @@
 ## ベクトルインデックスを作成
 
 - ベクトルインデックス名:
-  - `aozora-books-index`
+  - `aozora-books-embeddings`
 - ディメンション:
   - `1024`
 - 距離メトリック:

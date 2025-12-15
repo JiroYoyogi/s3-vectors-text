@@ -8,9 +8,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const BEDROCK_REGION = process.env.BEDROCK_REGION ?? "ap-northeast-1";
-const TEXT_EMBED_MODEL =
-  process.env.BEDROCK_TEXT_EMBED_MODEL ?? "amazon.titan-embed-text-v2:0";
-const S3_VECTORS_REGION = process.env.S3_VECTORS_REGION;
+const BEDROCK_EMBED_MODEL =
+  process.env.BEDROCK_EMBED_MODEL ?? "amazon.titan-embed-text-v2:0";
+const S3_VECTORS_REGION = process.env.S3_VECTORS_REGION ?? "ap-northeast-1";
 const VECTOR_BUCKET_NAME = process.env.VECTOR_BUCKET_NAME;
 const VECTOR_INDEX_NAME = process.env.VECTOR_INDEX_NAME;
 
@@ -20,14 +20,11 @@ const s3vectorsClient = new S3VectorsClient({ region: S3_VECTORS_REGION });
 (async () => {
   try {
     if (
-      !BEDROCK_REGION ||
-      !TEXT_EMBED_MODEL ||
-      !S3_VECTORS_REGION ||
       !VECTOR_BUCKET_NAME ||
       !VECTOR_INDEX_NAME
     ) {
       throw new Error(
-        "Required environment variables are not set (BEDROCK_REGION, TEXT_EMBED_MODEL, S3_VECTORS_REGION, VECTOR_BUCKET_NAME, VECTOR_INDEX_NAME)."
+        "Required environment variables are not set (VECTOR_BUCKET_NAME, VECTOR_INDEX_NAME)."
       );
     }
 
@@ -69,7 +66,7 @@ async function createEmbedding(text) {
 
   const res = await bedrockClient.send(
     new InvokeModelCommand({
-      modelId: TEXT_EMBED_MODEL,
+      modelId: BEDROCK_EMBED_MODEL,
       contentType: "application/json",
       body: new TextEncoder().encode(body),
     })
